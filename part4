@@ -1,39 +1,86 @@
+csharpCopy code
 using System;
 
 namespace MO2033_Assignment1
 {
-    class Program
+    class Calculator
     {
         static void Main(string[] args)
         {
-            string constructedWord = "";
-            Console.WriteLine("Let's build a word! Enter characters one by one.");
-            Console.WriteLine("Enter '!' to stop and see the constructed word.");
+            GreetUser("John");  // Test the greeting method with different names.
+            GreetUser("Alice");
+
+            Console.WriteLine("Welcome to the Calculator!");
 
             while (true)
             {
-                Console.WriteLine("Enter a character:");
-                char userInput = Console.ReadKey().KeyChar; // Read a single character from user input
-                
-                if (userInput == '!')
+                Console.WriteLine("\nSelect operation:\n1. Add\n2. Subtract\n3. Multiply\n4. Divide\n5. Exit");
+                int choice = Convert.ToInt32(Console.ReadLine());
+
+                if (choice == 5)
                 {
-                    Console.WriteLine("\nStopping word construction.");
+                    Console.WriteLine("Thank you for using the Calculator. Goodbye!");
                     break;
                 }
-                
-                constructedWord += userInput; // Add the character to our word
 
-                Console.WriteLine($"\nCurrent word: {constructedWord}");
-            }
+                Console.Write("Enter first number: ");
+                double num1 = Convert.ToDouble(Console.ReadLine());
 
-            if (constructedWord.Length > 0)
-            {
-                Console.WriteLine($"Your constructed word is: {constructedWord}");
+                Console.Write("Enter second number: ");
+                double num2 = Convert.ToDouble(Console.ReadLine());
+
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine($"Result: {Add(num1, num2)}");
+                        break;
+                    case 2:
+                        Console.WriteLine($"Result: {Subtract(num1, num2)}");
+                        break;
+                    case 3:
+                        Console.WriteLine($"Result: {Multiply(num1, num2)}");
+                        break;
+                    case 4:
+                        try
+                        {
+                            Console.WriteLine($"Result: {Divide(num1, num2)}");
+                        }
+                        catch (DivideByZeroException)
+                        {
+                            Console.WriteLine("Error: Division by zero is not allowed.");
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice.");
+                        break;
+                }
             }
-            else
-            {
-                Console.WriteLine("You didn't add any characters to the word.");
-            }
+        }
+
+        static void GreetUser(string name)
+        {
+            Console.WriteLine($"Hello, {name}!");
+        }
+
+        static double Add(double a, double b)
+        {
+            return a + b;
+        }
+
+        static double Subtract(double a, double b)
+        {
+            return a - b;
+        }
+
+        static double Multiply(double a, double b)
+        {
+            return a * b;
+        }
+
+        static double Divide(double a, double b)
+        {
+            if (b == 0) throw new DivideByZeroException();
+            return a / b;
         }
     }
 }
